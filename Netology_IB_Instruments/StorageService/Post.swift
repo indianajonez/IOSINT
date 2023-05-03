@@ -7,23 +7,37 @@
 
 import UIKit
 
-struct Post { 
-    let id = UUID()
-    let author: String
-    let description: String
-    let image: String
-    var likes: Int
-    var views: Int
+public struct Post {
+    public let id = UUID()
+    public let author: String
+    public let description: String
+    public let image: String
+    public var likes: Int
+    public var views: Int
+    
+    public init(author: String, description: String, image: String, likes: Int, views: Int) {
+        self.author = author
+        self.description = description
+        self.image = image
+        self.likes = likes
+        self.views = views
+    }
 }
 
-struct Post2 {
-    let title: String?
-    let image: UIImage?
-    let text: String?
+public struct Post2 {
+    public let title: String?
+    public let image: UIImage?
+    public let text: String?
+    
+    public init(title: String?, image: UIImage?, text: String?) {
+        self.title = title
+        self.image = image
+        self.text = text
+    }
 }
 
 extension Post2 {
-    static func make() -> [Post] {
+    public static func make() -> [Post] {
         return [
             Post(author: "Лохматый", description: "Сегодня еще ничего не елдлапрои мывлмтывжл рмфжвмо фжщимофж шмрофущш комфщшумрфшзгкеи рфшкгеримфшыкгеирыал опирш жагиргшыкер", image: "Лохматый", likes: 10, views: 320),
             Post(author: "CalmCat", description: "Молчу весь день. Тяжело.", image: "CalmCat", likes: 10, views: 320),

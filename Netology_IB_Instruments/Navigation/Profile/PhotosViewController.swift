@@ -26,6 +26,7 @@ class PhotosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Gallery"
+        navigationController?.navigationBar.isHidden = false
         //navigationController?.navigationBar.isHidden = false
         layout()
     }
