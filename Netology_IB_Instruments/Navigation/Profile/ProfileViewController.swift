@@ -62,7 +62,7 @@ extension ProfileViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = ProfileHeaderView()
-        header.backgroundColor = .darkGray
+        header.backgroundColor = .white
         return section == 0 ? header : nil
     }
     

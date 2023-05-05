@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class ProfileHeaderView: UIView {
     
@@ -35,6 +36,7 @@ class ProfileHeaderView: UIView {
         image.layer.borderWidth = 3
         image.layer.borderColor = UIColor.white.cgColor
         image.clipsToBounds = true
+        
         return image
     }()
     
@@ -70,7 +72,6 @@ class ProfileHeaderView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Waiting for something..."
         label.textColor = .gray
-        //label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
@@ -80,7 +81,7 @@ class ProfileHeaderView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Show status", for: .normal)
         button.layer.cornerRadius = 4
-        button.layer.backgroundColor = UIColor.blue.cgColor
+        button.backgroundColor = UIColor(rgb: 0x4885CC)
         button.layer.shadowOffset = CGSize(width: 4.0, height: 4.0)
         button.layer.shadowOpacity = 0.7
         button.layer.shadowRadius = 4
@@ -97,8 +98,14 @@ class ProfileHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        [avatarImage, fullNameLabel, statusLabel, statusTextField, setStatusButtom, ].forEach{addSubview($0)} // добавили аватарку на вью
-        layout() // закрепили аватарку на вью
+        [
+        avatarImage,
+        fullNameLabel,
+        statusLabel,
+        statusTextField,
+        setStatusButtom,
+        ].forEach{addSubview($0)}
+        layout()
         setupGestures()
     }
     
@@ -117,12 +124,19 @@ class ProfileHeaderView: UIView {
         addSubview(crossButton)
         bringSubviewToFront(avatarImage)
         
-        NSLayoutConstraint.activate([
-            crossButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            crossButton.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            crossButton.widthAnchor.constraint(equalToConstant: 30),
-            crossButton.heightAnchor.constraint(equalToConstant: 30)
-        ])
+        
+        crossButton.snp.makeConstraints { maker in
+            maker.right.equalToSuperview().inset(10)
+            maker.top.equalToSuperview().inset(10)
+            maker.width.equalTo(30)
+            maker.height.equalTo(30)
+        }
+//        NSLayoutConstraint.activate([
+//            crossButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+//            crossButton.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+//            crossButton.widthAnchor.constraint(equalToConstant: 30),
+//            crossButton.heightAnchor.constraint(equalToConstant: 30)
+//        ])
         
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut) { [self] in
             blackView.alpha = 0.85
@@ -169,39 +183,76 @@ class ProfileHeaderView: UIView {
     
     private func layout() {
         
-        avatarTop = avatarImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
-        avatarLeading = avatarImage.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16)
-        avatarWight = avatarImage.widthAnchor.constraint(equalToConstant: 100)
-        avatarHeight = avatarImage.heightAnchor.constraint(equalToConstant: 100)
+        avatarImage.snp.makeConstraints { maker in
+            maker.left.equalToSuperview().inset(16)
+            maker.top.equalToSuperview().inset(16)
+            maker.width.equalTo(100)
+            maker.height.equalTo(100)
+            
+        }
         
-        NSLayoutConstraint.activate([
-            avatarTop,
-            avatarLeading,
-            avatarWight,
-            avatarHeight,
+        fullNameLabel.snp.makeConstraints { maker in
+            maker.top.equalToSuperview().inset(27)
+            maker.left.equalToSuperview().inset(130)
             
-            fullNameLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 27),
-            fullNameLabel.leadingAnchor.constraint(equalTo: trailingAnchor, constant: -240),
-            fullNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            fullNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-
-            
-            statusLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 16),
-            statusLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -250),
-            statusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-
-            
-            statusTextField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 20),
-            statusTextField.heightAnchor.constraint(equalToConstant: 40),
-            statusTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -270),
-            statusTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            
-            setStatusButtom.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: 20),
-            setStatusButtom.heightAnchor.constraint(equalToConstant: 40),
-            setStatusButtom.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            setStatusButtom.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-
-        ])
+        }
+        
+        statusTextField.snp.makeConstraints { maker in
+            maker.top.equalTo(statusLabel).inset(70)
+            maker.height.equalTo(40)
+            maker.right.equalToSuperview().inset(16)
+            maker.left.equalToSuperview().inset(130)
+        }
+        
+        
+        statusLabel.snp.makeConstraints { maker in
+            maker.top.equalTo(fullNameLabel).inset(16)
+            maker.height.equalTo(40)
+            maker.right.equalToSuperview().inset(-16)
+            maker.left.equalToSuperview().inset(-250)
+        }
+        
+        setStatusButtom.snp.makeConstraints { maker in
+            maker.top.equalTo(statusTextField).inset(50)
+            maker.height.equalTo(40)
+            maker.right.equalToSuperview().inset(16)
+            maker.left.equalToSuperview().inset(16)
+        }
+        
+//        Зачем то, что указано ниже? При запуске почему-то ни на что не влияет..
+//        avatarTop = avatarImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
+//        avatarLeading = avatarImage.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16)
+//        avatarWight = avatarImage.widthAnchor.constraint(equalToConstant: 100)
+//        avatarHeight = avatarImage.heightAnchor.constraint(equalToConstant: 100)
+//
+//        NSLayoutConstraint.activate([
+//            avatarTop,
+//            avatarLeading,
+//            avatarWight,
+//            avatarHeight,
+//
+//            fullNameLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 27),
+//            fullNameLabel.leadingAnchor.constraint(equalTo: trailingAnchor, constant: -240),
+//            fullNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+//            fullNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+//
+//
+//            statusLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 16),
+//            statusLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -250),
+//            statusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+//
+//
+//            statusTextField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 20),
+//            statusTextField.heightAnchor.constraint(equalToConstant: 40),
+//            statusTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -270),
+//            statusTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+//
+//            setStatusButtom.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: 20),
+//            setStatusButtom.heightAnchor.constraint(equalToConstant: 40),
+//            setStatusButtom.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+//            setStatusButtom.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+//
+//        ])
     }
 }
 
