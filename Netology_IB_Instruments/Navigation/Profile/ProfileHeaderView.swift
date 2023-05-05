@@ -131,21 +131,17 @@ class ProfileHeaderView: UIView {
             maker.width.equalTo(30)
             maker.height.equalTo(30)
         }
-//        NSLayoutConstraint.activate([
-//            crossButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-//            crossButton.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-//            crossButton.widthAnchor.constraint(equalToConstant: 30),
-//            crossButton.heightAnchor.constraint(equalToConstant: 30)
-//        ])
         
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut) { [self] in
             blackView.alpha = 0.85
             avatarImage.layer.cornerRadius = 0
             
-            avatarTop.constant = UIScreen.main.bounds.midX
-            avatarLeading.constant = 16
-            avatarWight.constant = UIScreen.main.bounds.width
-            avatarHeight.constant = UIScreen.main.bounds.width
+            avatarImage.snp.makeConstraints { make in
+                make.top.equalTo(blackView).inset(UIScreen.main.bounds.midX)
+                make.leading.equalTo(blackView).inset(16)
+                make.width.equalTo(blackView).inset(UIScreen.main.bounds.width)
+                make.height.equalTo(blackView).inset(UIScreen.main.bounds.width)
+            }
             layoutIfNeeded()
         } completion: { _ in
             UIView.animate(withDuration: 0.3) { [self] in
@@ -164,10 +160,14 @@ class ProfileHeaderView: UIView {
                 
                 sendSubviewToBack(avatarImage)
                 avatarImage.layer.cornerRadius = 50
-                avatarTop.constant = 16
-                avatarLeading.constant = 16
-                avatarWight.constant = 100
-                avatarHeight.constant = 100
+                
+                avatarImage.snp.remakeConstraints { make in
+                    make.top.equalToSuperview().inset(16)
+                    make.leading.equalToSuperview().inset(16)
+                    make.width.equalToSuperview().inset(100)
+                    make.height.equalToSuperview().inset(100)
+                }
+                
                 blackView.alpha = 0.0
                 blackView.removeFromSuperview()
                 
@@ -175,11 +175,6 @@ class ProfileHeaderView: UIView {
             }
         }
     }
-    
-    private var avatarWight = NSLayoutConstraint()
-    private var avatarHeight = NSLayoutConstraint()
-    private var avatarTop = NSLayoutConstraint()
-    private var avatarLeading = NSLayoutConstraint()
     
     private func layout() {
         
@@ -204,7 +199,6 @@ class ProfileHeaderView: UIView {
             maker.left.equalToSuperview().inset(130)
         }
         
-        
         statusLabel.snp.makeConstraints { maker in
             maker.top.equalTo(fullNameLabel).inset(16)
             maker.height.equalTo(40)
@@ -218,41 +212,6 @@ class ProfileHeaderView: UIView {
             maker.right.equalToSuperview().inset(16)
             maker.left.equalToSuperview().inset(16)
         }
-        
-//        Зачем то, что указано ниже? При запуске почему-то ни на что не влияет..
-//        avatarTop = avatarImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
-//        avatarLeading = avatarImage.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16)
-//        avatarWight = avatarImage.widthAnchor.constraint(equalToConstant: 100)
-//        avatarHeight = avatarImage.heightAnchor.constraint(equalToConstant: 100)
-//
-//        NSLayoutConstraint.activate([
-//            avatarTop,
-//            avatarLeading,
-//            avatarWight,
-//            avatarHeight,
-//
-//            fullNameLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 27),
-//            fullNameLabel.leadingAnchor.constraint(equalTo: trailingAnchor, constant: -240),
-//            fullNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-//            fullNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-//
-//
-//            statusLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 16),
-//            statusLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -250),
-//            statusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-//
-//
-//            statusTextField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 20),
-//            statusTextField.heightAnchor.constraint(equalToConstant: 40),
-//            statusTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -270),
-//            statusTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-//
-//            setStatusButtom.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: 20),
-//            setStatusButtom.heightAnchor.constraint(equalToConstant: 40),
-//            setStatusButtom.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-//            setStatusButtom.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-//
-//        ])
     }
 }
 
