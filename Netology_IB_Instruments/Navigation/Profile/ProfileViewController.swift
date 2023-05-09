@@ -10,7 +10,7 @@ import StorageService
 
 class ProfileViewController: UIViewController {
     
-
+    var currentUser: User?
     private var listPost = Post2.make()
     private var listPhoto = Photo.makeCollectionPhotos()
 
@@ -32,6 +32,8 @@ class ProfileViewController: UIViewController {
         #else
         view.backgroundColor = .lightGray
         #endif
+        print(currentUser?.fullName ?? "Not create user and not have fullName")
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,7 +63,8 @@ extension ProfileViewController: UITableViewDelegate {
     } // auto math height size for cell
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = ProfileHeaderView()
+        var header = ProfileHeaderView()
+        header.user = currentUser
         header.backgroundColor = .darkGray
         return section == 0 ? header : nil
     }

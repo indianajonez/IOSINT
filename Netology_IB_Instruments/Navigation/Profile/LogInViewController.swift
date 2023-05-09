@@ -104,6 +104,7 @@ class LogInViewController: UIViewController {
         print(loginText.text == "" ? "Not login" : loginText.text ?? "Not login")
         print(loginPassword.text == "" ? "Not password": loginPassword.text ?? "Not password")
         let profileVC = ProfileViewController()
+        profileVC.currentUser = CurrentUserService(login: loginText.text ?? "Not login").user
         navigationController?.pushViewController(profileVC, animated: true)
     }
     

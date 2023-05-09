@@ -9,6 +9,8 @@ import UIKit
 
 class ProfileHeaderView: UIView {
     
+    var user: User?
+    
     private lazy var blackView: UIView = {
         let blackView = UIView()
         blackView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,8 +30,8 @@ class ProfileHeaderView: UIView {
         return button
     }()
     
-    let avatarImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "HipstaCat"))
+    private lazy var avatarImage: UIImageView = {
+        let image = UIImageView(image: user?.avatar ?? UIImage(named: "HipstaCat"))
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 50
         image.layer.borderWidth = 3
@@ -38,10 +40,10 @@ class ProfileHeaderView: UIView {
         return image
     }()
     
-    let fullNameLabel: UILabel = {
+    private lazy var fullNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Hipster Cat"
+        label.text = user?.fullName ?? "Hipster Cat"
         label.textColor = .black
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -105,6 +107,9 @@ class ProfileHeaderView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func setView(user: User)
+    
     
     private func setupGestures() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
