@@ -10,7 +10,7 @@ import StorageService
 
 class ProfileViewController: UIViewController {
     
-    var currentUser: User?
+    var currentUser: User? // 4. В существующий класс ProfileViewController добавьте свойство типа User и сделайте отображение этой информации на экране профиля, включая изображение аватара.
     private var listPost = Post2.make()
     private var listPhoto = Photo.makeCollectionPhotos()
 
@@ -20,8 +20,8 @@ class ProfileViewController: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         table.delegate = self
         table.dataSource = self
-        table.register(PhotosTableViewCell.self, forCellReuseIdentifier: PhotosTableViewCell.identifier)
-        table.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.identifier) //регистрация ячейки для переиспользования
+        table.register(PhotosTableViewCell.self, forCellReuseIdentifier: PhotosTableViewCell.identifier) //регистрация ячейки c фото для переиспользования
+        table.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.identifier) //регистрация ячейки c постами для переиспользования
         return table
     }()
     
@@ -63,8 +63,8 @@ extension ProfileViewController: UITableViewDelegate {
     } // auto math height size for cell
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var header = ProfileHeaderView()
-        header.user = currentUser
+        let header = ProfileHeaderView()
+        header.user = currentUser // В существующий класс ProfileViewController добавьте свойство типа User и сделайте отображение этой информации на экране профиля, включая изображение аватара.
         header.backgroundColor = .darkGray
         return section == 0 ? header : nil
     }
@@ -90,7 +90,6 @@ extension ProfileViewController: UITableViewDataSource {
         
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PhotosTableViewCell.identifier) as? PhotosTableViewCell else { return UITableViewCell()}
-            //cell.selectionStyle = .none
             cell.delegate = self
             return cell
         } else {
@@ -98,7 +97,6 @@ extension ProfileViewController: UITableViewDataSource {
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier) as? PostTableViewCell else { return UITableViewCell()}
             cell.setupCell(listPost[indexPath.row])
-            //cell.selectionStyle = .none
             return cell
         }
 

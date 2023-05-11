@@ -31,7 +31,7 @@ class ProfileHeaderView: UIView {
     }()
     
     private lazy var avatarImage: UIImageView = {
-        let image = UIImageView(image: user?.avatar ?? UIImage(named: "HipstaCat"))
+        var image = UIImageView(image: user?.avatar ?? UIImage(named: "HipstaCat"))
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 50
         image.layer.borderWidth = 3
@@ -77,7 +77,7 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    let setStatusButtom: UIButton = {
+    let setStatusButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Show status", for: .normal)
@@ -87,11 +87,11 @@ class ProfileHeaderView: UIView {
         button.layer.shadowOpacity = 0.7
         button.layer.shadowRadius = 4
         button.layer.shadowColor = UIColor.black.cgColor
-        button.addTarget(self, action: #selector(setStatus), for: .touchUpInside)
+        button.addTarget(ProfileHeaderView.self, action: #selector(didTaplogInButton), for: .touchUpInside)
         return button
     }()
     
-    @objc private func setStatus() {
+    @objc private func didTaplogInButton() {
         statusLabel.text = statusTextField.text
         print(statusLabel.text ?? "NOT")
     }
@@ -99,7 +99,7 @@ class ProfileHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        [avatarImage, fullNameLabel, statusLabel, statusTextField, setStatusButtom, ].forEach{addSubview($0)} // добавили аватарку на вью
+        [avatarImage, fullNameLabel, statusLabel, statusTextField, setStatusButton, ].forEach{addSubview($0)} // добавили аватарку на вью
         layout() // закрепили аватарку на вью
         setupGestures()
     }
@@ -108,7 +108,10 @@ class ProfileHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setView(user: User)
+    func setView(user: User?) {
+        var lable = self.fullNameLabel
+        var image = self.avatarImage
+    }// дописать прием пользователя и внутри нее задавай значения в лейбл и картинку и при запуске запускай эту функцию //и передавай туда пользователя, а у класса вью удали его где мы функцию прописывали
     
     
     private func setupGestures() {
@@ -201,10 +204,10 @@ class ProfileHeaderView: UIView {
             statusTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -270),
             statusTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
-            setStatusButtom.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: 20),
-            setStatusButtom.heightAnchor.constraint(equalToConstant: 40),
-            setStatusButtom.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            setStatusButtom.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            setStatusButton.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: 20),
+            setStatusButton.heightAnchor.constraint(equalToConstant: 40),
+            setStatusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            setStatusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
 
         ])
     }
