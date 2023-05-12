@@ -20,6 +20,7 @@ class ProfileViewController: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         table.delegate = self
         table.dataSource = self
+        table.backgroundColor = .lightGray
         table.register(PhotosTableViewCell.self, forCellReuseIdentifier: PhotosTableViewCell.identifier) //регистрация ячейки c фото для переиспользования
         table.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.identifier) //регистрация ячейки c постами для переиспользования
         return table
@@ -32,7 +33,7 @@ class ProfileViewController: UIViewController {
         #else
         view.backgroundColor = .lightGray
         #endif
-        print(currentUser?.fullName ?? "Not create user and not have fullName") // Смоделируем случай, когда в схеме Debug, которая была создана по результатам первой домашней работы, вводится тестовый логин.
+        // Смоделируем случай, когда в схеме Debug, которая была создана по результатам первой домашней работы, вводится тестовый логин.
 
     }
     
@@ -93,12 +94,14 @@ extension ProfileViewController: UITableViewDataSource {
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PhotosTableViewCell.identifier) as? PhotosTableViewCell else { return UITableViewCell()}
             cell.delegate = self
+            cell.backgroundColor = .lightGray
             return cell
         } else {
             
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier) as? PostTableViewCell else { return UITableViewCell()}
             cell.setupCell(listPost[indexPath.row])
+            cell.backgroundColor = .lightGray
             return cell
         }
 

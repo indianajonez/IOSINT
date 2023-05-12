@@ -41,7 +41,7 @@ class LogInViewController: UIViewController {
         login.leftViewMode = .always
         login.placeholder = "Login"
         login.autocapitalizationType = .none
-        login.isSecureTextEntry = true
+        //login.isSecureTextEntry = true
         login.leftView = UIView(frame: CGRect(x: 0, y: 10, width: 10, height: 10))
         return login
     }()
@@ -104,8 +104,13 @@ class LogInViewController: UIViewController {
         //print(loginText.text == "" ? "Not login" : loginText.text ?? "Not login")
         //print(loginPassword.text == "" ? "Not password": loginPassword.text ?? "Not password")
         let profileVC = ProfileViewController()
+        #if DEBUG
+        profileVC.currentUser = TestUserService(login: loginText.text ?? "Not login").user
+        navigationController?.pushViewController(profileVC, animated: true)
+        #else
         profileVC.currentUser = CurrentUserService(login: loginText.text ?? "Not login").user
         navigationController?.pushViewController(profileVC, animated: true)
+        #endif
     }
     
     override func viewDidLoad() {

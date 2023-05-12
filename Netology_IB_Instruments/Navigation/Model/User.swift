@@ -45,13 +45,17 @@ class CurrentUserService: UserService {
 
 //Добавьте новый класс TestUserService, который также поддерживает протокол UserService. Класс должен хранить объект класса User с тестовыми данными и возвращать его в реализации протокола.
 
-//class TestUserService: UserService {
-//
-//    var user: User?
-//
-//    func checkLogin(login: String) -> User? {
-//        <#code#>
-//    }
-//
-//
-//}
+class TestUserService: UserService {
+
+    var user: User? = User(login: "test", fullName: "Testovay", avatar: UIImage(named: "ImOkay") ?? UIImage(), status: "online")
+
+    init(login: String) {
+        self.user = checkLogin(login: login)
+    }
+    
+    func checkLogin(login: String) -> User? {
+        login == user?.login ? self.user : nil
+    }
+
+
+}
