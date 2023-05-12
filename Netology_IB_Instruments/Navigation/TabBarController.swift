@@ -8,6 +8,7 @@
 import UIKit
 
 class TabBarController: UITabBarController {
+    
     let firstVC = FeedViewController() // экземпляр класса
     let secondVC = ProfileViewController() // экземпляр класса
     let loginVC = LogInViewController() //  login

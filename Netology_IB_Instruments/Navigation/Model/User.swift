@@ -8,7 +8,8 @@
 import Foundation
 import UIKit
 
-class User { // 1. Добавьте новый класс User для хранения информации о пользователе со свойствами: логин, полное имя, аватар, статус. Типы для свойств — String, за исключением аватара, который должен иметь тип UIImage.
+// 1. Добавьте новый класс User для хранения информации о пользователе со свойствами: логин, полное имя, аватар, статус. Типы для свойств — String, за исключением аватара, который должен иметь тип UIImage.
+class User {
     var login: String
     var fullName: String
     var avatar: UIImage
@@ -21,13 +22,13 @@ class User { // 1. Добавьте новый класс User для хране
         self.status = status
     }
 }
-
+// 2. протокол UserService с функцией, которая в качестве аргумента принимает логин и возвращает объект класса User?. То есть, в случае неверного логина, пользователь не будет авторизован.
 protocol UserService {
-    func checkLogin(login: String) -> User? // 2. протокол UserService с функцией, которая в качестве аргумента принимает логин и возвращает объект класса User?. То есть, в случае неверного логина, пользователь не будет авторизован.
+    func checkLogin(login: String) -> User?
 }
 
-
-class CurrentUserService: UserService { // 3. Добавьте новый класс CurrentUserService, который поддерживает протокол UserService. Класс должен хранить объект класса User и возвращать его в функции, реализующей протокол, если, конечно, переданный логин соответствует логину имени пользователя.
+// 3. Добавьте новый класс CurrentUserService, который поддерживает протокол UserService. Класс должен хранить объект класса User и возвращать его в функции, реализующей протокол, если, конечно, переданный логин соответствует логину имени пользователя.
+class CurrentUserService: UserService {
     
     var user: User? // объект класса User
     
@@ -35,8 +36,22 @@ class CurrentUserService: UserService { // 3. Добавьте новый кла
         self.user = checkLogin(login: login)
     }
     
-    func checkLogin(login: String) -> User? { // 3.1 функция реализующая протокол, если переданный логин соответсвует логину имени пользовтеля
+    // 3.1 функция реализующая протокол, если переданный логин соответсвует логину имени пользовтеля
+    func checkLogin(login: String) -> User? {
         login == "Katay" ? User(login: "Katay", fullName: "Ekaterina", avatar: UIImage(named: "tiger") ?? UIImage(), status: "online") : nil
     }
     
 }
+
+//Добавьте новый класс TestUserService, который также поддерживает протокол UserService. Класс должен хранить объект класса User с тестовыми данными и возвращать его в реализации протокола.
+
+//class TestUserService: UserService {
+//
+//    var user: User?
+//
+//    func checkLogin(login: String) -> User? {
+//        <#code#>
+//    }
+//
+//
+//}

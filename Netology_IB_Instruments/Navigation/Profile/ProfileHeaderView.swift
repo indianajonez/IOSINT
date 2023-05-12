@@ -9,7 +9,6 @@ import UIKit
 
 class ProfileHeaderView: UIView {
     
-    var user: User?
     
     private lazy var blackView: UIView = {
         let blackView = UIView()
@@ -31,7 +30,7 @@ class ProfileHeaderView: UIView {
     }()
     
     private lazy var avatarImage: UIImageView = {
-        var image = UIImageView(image: user?.avatar ?? UIImage(named: "HipstaCat"))
+        var image = UIImageView(image: UIImage(named: "HipstaCat"))
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 50
         image.layer.borderWidth = 3
@@ -43,14 +42,14 @@ class ProfileHeaderView: UIView {
     private lazy var fullNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = user?.fullName ?? "Hipster Cat"
+        label.text = "Hipster Cat"
         label.textColor = .black
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
     
-    let statusTextField: UITextField = {
+    private lazy var statusTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.layer.borderColor = UIColor.black.cgColor
@@ -67,7 +66,7 @@ class ProfileHeaderView: UIView {
     }()
     
     
-    let statusLabel : UILabel = {
+    private lazy var statusLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Waiting for something..."
@@ -77,7 +76,7 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    let setStatusButton: UIButton = {
+    private lazy var setStatusButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Show status", for: .normal)
@@ -87,7 +86,7 @@ class ProfileHeaderView: UIView {
         button.layer.shadowOpacity = 0.7
         button.layer.shadowRadius = 4
         button.layer.shadowColor = UIColor.black.cgColor
-        button.addTarget(ProfileHeaderView.self, action: #selector(didTaplogInButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTaplogInButton), for: .touchUpInside)
         return button
     }()
     
@@ -109,9 +108,11 @@ class ProfileHeaderView: UIView {
     }
     
     func setView(user: User?) {
-        var lable = self.fullNameLabel
-        var image = self.avatarImage
-    }// дописать прием пользователя и внутри нее задавай значения в лейбл и картинку и при запуске запускай эту функцию //и передавай туда пользователя, а у класса вью удали его где мы функцию прописывали
+        if let user = user {
+            self.fullNameLabel.text = user.fullName
+            self.avatarImage.image = user.avatar
+        }
+    }
     
     
     private func setupGestures() {

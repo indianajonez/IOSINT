@@ -50,7 +50,6 @@ class PhotosTableViewCell: UITableViewCell {
     private lazy var imageCollection: UICollectionView = { // коллекция картинок
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal // горизонтальное расположение
-        
         let imageCollection = UICollectionView(
         frame: .zero,
         collectionViewLayout: layout
@@ -58,6 +57,7 @@ class PhotosTableViewCell: UITableViewCell {
         imageCollection.translatesAutoresizingMaskIntoConstraints = false
         imageCollection.delegate = self // кто будет реагировать на делегиварование
         imageCollection.dataSource = self // хранилище дванных
+        imageCollection.backgroundColor = .lightGray
         imageCollection.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: PhotosCollectionViewCell.identifier)
         return imageCollection
     }()

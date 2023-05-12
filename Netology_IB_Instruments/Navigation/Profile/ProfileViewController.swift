@@ -25,16 +25,17 @@ class ProfileViewController: UIViewController {
         return table
     }()
     
-    override func viewDidLoad() {
+    override func viewDidLoad() { 
         super.viewDidLoad()
         #if DEBUG
         view.backgroundColor = .cyan
         #else
         view.backgroundColor = .lightGray
         #endif
-        print(currentUser?.fullName ?? "Not create user and not have fullName")
+        print(currentUser?.fullName ?? "Not create user and not have fullName") // Смоделируем случай, когда в схеме Debug, которая была создана по результатам первой домашней работы, вводится тестовый логин.
 
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -64,8 +65,9 @@ extension ProfileViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = ProfileHeaderView()
-        header.user = currentUser // В существующий класс ProfileViewController добавьте свойство типа User и сделайте отображение этой информации на экране профиля, включая изображение аватара.
-        header.backgroundColor = .darkGray
+        header.setView(user: currentUser)
+         // В существующий класс ProfileViewController добавьте свойство типа User и сделайте отображение этой информации на экране профиля, включая изображение аватара.
+        header.backgroundColor = .lightGray
         return section == 0 ? header : nil
     }
     

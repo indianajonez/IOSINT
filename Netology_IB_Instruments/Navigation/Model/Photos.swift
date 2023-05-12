@@ -9,6 +9,7 @@ import UIKit
 
 
 struct Photo {
+    
     let image: UIImage?
     
     static func makeCollectionPhotos() -> [Photo] {
