@@ -10,7 +10,11 @@ import StorageService
 
 class ProfileViewController: UIViewController {
     
-    var currentUser: User? // 4. В существующий класс ProfileViewController добавьте свойство типа User и сделайте отображение этой информации на экране профиля, включая изображение аватара.
+    enum ValidationError: Error { //для проверки логина и пароля через аллерт
+            case notFound
+        }
+    
+    var currentUser: User? // В существующий класс ProfileViewController добавьте свойство типа User и сделайте отображение этой информации на экране профиля, включая изображение аватара.
     private var listPost = Post2.make()
     private var listPhoto = Photo.makeCollectionPhotos()
 

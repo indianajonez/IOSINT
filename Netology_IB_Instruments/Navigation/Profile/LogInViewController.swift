@@ -11,6 +11,14 @@ class LogInViewController: UIViewController {
     
     private let notificationCenter = NotificationCenter.default
     
+    enum ValidationError: Error {
+            case invalidCredentials
+        }
+    
+    // Для класса LoginViewController сделайте свойство loginDelegate с типом LoginViewControllerDelegate. Метод делегата будет проверять значения, введённые в текстовых полях контроллера. Напрямую вызывать из контроллера сервис Checker в этой работе нельзя.
+    
+    var loginDelegate: LoginViewControllerDelegate!
+        
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
@@ -101,16 +109,27 @@ class LogInViewController: UIViewController {
     }()
     
     @objc private func setStatus() {
-        //print(loginText.text == "" ? "Not login" : loginText.text ?? "Not login")
-        //print(loginPassword.text == "" ? "Not password": loginPassword.text ?? "Not password")
-        let profileVC = ProfileViewController()
-        #if DEBUG
-        profileVC.currentUser = TestUserService(login: loginText.text ?? "Not login").user
-        navigationController?.pushViewController(profileVC, animated: true)
-        #else
-        profileVC.currentUser = CurrentUserService(login: loginText.text ?? "Not login").user
-        navigationController?.pushViewController(profileVC, animated: true)
-        #endif
+        var login = loginText.text ?? ""
+        var pass = loginPassword.text ?? ""
+        if self.loginDelegate.check(login: login, password: pass) {
+            let profileVC = ProfileViewController()
+            #if DEBUG
+            profileVC.currentUser = TestUserService(login: loginText.text ?? "Not login").user
+            navigationController?.pushViewController(profileVC, animated: true)
+            #else
+            profileVC.currentUser = CurrentUserService(login: loginText.text ?? "Not login").user
+            navigationController?.pushViewController(profileVC, animated: true)
+            #endif
+        }
+        else {
+            let alert = UIAlertController(title: "Bad auth", message: "Пользователь с таким логином/паролем не найден", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ок", style: .default) { _ in
+                self.navigationController?.popViewController(animated: true)
+            }
+            
+            alert.addAction(okAction)
+            present(alert, animated: true)
+        }
     }
     
     override func viewDidLoad() {
@@ -193,3 +212,4 @@ class LogInViewController: UIViewController {
 
 }
 
+// 9. Реализуйте в LoginViewController проверку логина и пароля, введённого пользователем с помощью loginDelegate. Выведите сообщение о неверном логине или пароле с помощью UIAlertController, если они неверные. Подумайте, как логично интегрировать сделанный в предыдущем задании UserService, который предоставляет информацию о пользователе для его профиля, c проверкой на входе логина и пароля c использованием LoginInspector.
